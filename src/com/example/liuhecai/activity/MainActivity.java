@@ -1,4 +1,4 @@
-package com.example.liuhecai;
+package com.example.liuhecai.activity;
 
 
 
@@ -17,6 +17,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import com.example.liuhecai.R;
+import com.example.liuhecai.R.id;
+import com.example.liuhecai.R.layout;
+import com.example.liuhecai.R.menu;
+import com.example.liuhecai.util.HttpGetListGifNo;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -152,7 +158,8 @@ public class MainActivity extends Activity {
     		{"1","4","13","22","32","41"}, 
 
 };     
-    String[][] arr = listGifNo();
+    HttpGetListGifNo httpGetListGifNo = new HttpGetListGifNo();
+    String[][] arr = httpGetListGifNo.listGifNo();
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -824,71 +831,8 @@ public class MainActivity extends Activity {
       return list;
    	 }
     
-//自动获取历史数据
-    public String[][] listGifNo() {
 
-     	final List<String> list1 = new ArrayList<String>();
-     	final List<String> list2 = new ArrayList<String>();
-		System.out.println("=================1==================");
-    	new Thread(new Runnable() {
-	    	public void run() {
-	        try {
-	        String url = "http://kj8888.com/kjjg/2015dx.htm";
-	        Document doc = Jsoup.connect(url).get();
-	        Elements links = doc.select("a[href]");
-	        Elements media = doc.select("[src]");
-	        Elements imports = doc.select("link[href]");
-			System.out.println("=================2==================");
-	        for (Element src : media) {
-	            if (src.tagName().equals("img")) {
-	            list1.add(src.attr("abs:src"));
-	            }
-	        }
-			System.out.println("=================3==================");
-	        for (String s : list1) {
-	        	if(s.substring(28,29).contains("."))
-	        		list2.add(s.substring(27,28));
-	        	else 
-	        		list2.add(s.substring(27,29)); 
-	
-	        }
-			System.out.println("=================4==================");
-	        } catch (IOException e) {
-	          e.printStackTrace();
-	          
-	        }
-	    	}
-    	}).start();
-    	while (list2.size()<106) {
-    		try {
-    		Thread.sleep(1000);
-    		} catch (InterruptedException e) {
-    		e.printStackTrace();
-    		}
-    		System.out.println("ni hao!");
-    		}
-		String[][] str = new String[list2.size()/7+1][7];
-    	System.out.println("=================5=================="+str.length+"//"+list1.size()+"/"+list2.size()); 
-        for (int i=0; i<list2.size(); i++) {
-           		str[i/7][i%7]=list2.get(i);      	
-        } 
-        
-        String[][] str1 = new String[str.length-1][6];
-		System.out.println("=================6=================="+str.length+"/"+str1.length+"/"+list1.size()+"/"+list2.size());
-        for (int i=0; i<str.length-1; i++) {
-        	for (int j=0; j<6; j++) {
-        		if(i<14 && i>=0) {
-        			str1[i][j]="NA";
-        		}
-        		else {
-	        		str1[i][j]=str[i][j];
-        		}
-        		System.out.println(str1[i][j]);
-        	}       	
-        } 
-		System.out.println("=================7=================="+str.length+"/"+str1.length+"/"+list1.size()+"/"+list2.size());
-	    return str1; 
-    }
+    
 
     
     
