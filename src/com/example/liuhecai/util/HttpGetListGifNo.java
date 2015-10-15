@@ -23,7 +23,7 @@ public class HttpGetListGifNo {
 	    	public void run() {
 	        try {
 	        String url = "http://kj8888.com/kjjg/2015dx.htm";
-	        Document doc = Jsoup.connect(url).get();
+	        Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 6.1; rv:22.0) Gecko/20100101 Firefox/22.0").get();
 	        Elements links = doc.select("a[href]");
 	        Elements media = doc.select("[src]");
 	        Elements imports = doc.select("link[href]");
@@ -71,7 +71,6 @@ public class HttpGetListGifNo {
         		else {
 	        		str1[i][j]=str[i][j];
         		}
-        		System.out.print(str1[i][j]);
         	}       	
         } 
 	    return str1; 
